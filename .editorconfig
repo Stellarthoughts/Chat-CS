@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA1051: Не объявляйте видимые поля экземпляров
+dotnet_diagnostic.CA1051.severity = none
