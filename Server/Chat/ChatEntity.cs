@@ -2,7 +2,7 @@
 
 namespace Server.ChatPM
 {
-	public abstract class ChatEntity
+	public abstract class ChatEntity : ISendReceive
 	{
 		protected Chat connectedTo;
 
@@ -16,14 +16,15 @@ namespace Server.ChatPM
 			{
 				Content = msgString,
 				Origin = this,
+				Destination = connectedTo
 			};
 			SendMessage(msg);
 		}
-		public void SendMessage(Message msg)
-		{
-			ConnectedTo.ReceiveMessage(msg);
-		}
 
-		public Chat ConnectedTo { get => connectedTo; set => connectedTo = value; }
+		public abstract void SendMessage(Message msg);
+
+		public abstract void ReceiveMessage(Message msg);
+
+        public Chat ConnectedTo { get => connectedTo; set => connectedTo = value; }
     }
 }

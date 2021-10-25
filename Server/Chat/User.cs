@@ -3,15 +3,22 @@
 	public class User : ChatEntity
 	{	
 		private UserInterface ui;
-        private Server srv;
 
-        public User(Server srv)
+        public User()
 		{
 			ui = new UserInterface(this);
-			srv.ConnectUserToServer(this);
 		}
 
+		public override void ReceiveMessage(Message msg)
+		{
+			ui.ShowMessage(msg);
+		}
+
+        public override void SendMessage(Message msg)
+        {
+			connectedTo.ReceiveMessage(msg);
+        }
+
         public UserInterface UI { get => ui; set => ui = value; }
-		public Server Srv { get => srv; set => srv = value; }
 	}
 }
