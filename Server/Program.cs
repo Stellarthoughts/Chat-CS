@@ -1,22 +1,29 @@
-﻿using Server.ChatPM;
+﻿using Server.BotPM;
+using Server.ChatPM;
 using System;
 using System.Collections.Generic;
 
 namespace Server
 {
-	public class Server
+	public class Programm
 	{
 		private static int idGlobal = 0;
-		private List<Chat> chatList;
-		private List<User> userList;
+		private static List<Chat> chatList;
+		private static List<User> userList;
 
 		private static void Main(string[] args)
 		{
-			Server srv = new Server();
-			Chat mainchat = new Chat(srv);
-			User localUser = new User(srv);
+			chatList = new List<Chat>();
+			userList = new List<User>();
 
-			while(true)
+			Chat mainchat = new Chat();
+			User localUser = new User();
+			Bot localBot = new Bot();
+
+			mainchat.Connect(localUser);
+			mainchat.Connect(localBot);
+
+			while (true)
 			{
 				try
 				{
@@ -27,40 +34,6 @@ namespace Server
 					break;
 				}
 			}
-		}
-
-		public void ConnectUserToServer(User usr)
-        {
-			if(!userList.Contains(usr))
-            {
-				userList.Add(usr);
-            }
-			else
-            {
-				throw new Exception();
-            }
-        }
-
-		public void AddChat(Chat chat)
-        {
-			if(!chatList.Contains(chat))
-            {
-				chatList.Add(chat);
-            }
-			else
-            {
-				throw new Exception();
-            }
-        }
-
-		public void ReceiveMessage(Message msg)
-        {
-
-        }
-
-		private void ConnectUserToChat(User usr, Chat cht)
-		{
-
 		}
 
 		public static int IdGlobal { get => idGlobal++; }
