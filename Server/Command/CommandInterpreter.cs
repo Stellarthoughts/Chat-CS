@@ -1,26 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using Server.ChatPM;
+using System;
+using System.Collections.Generic;
 
 namespace Server.CommandPM
 {
 	public class CommandInterpreter
 	{
 		private List<Command> commandList;
+		private ISendReceive obj;
 
-		public CommandInterpreter(List<Command> commandList)
+		public CommandInterpreter(ISendReceive obj, List<Command> commandList)
         {
+			this.obj = obj;
 			this.commandList = commandList;
         }
 
 		public Command InterpretMessage(ChatPM.Message msg)
 		{
-            foreach(Command command in commandList)
+			Command standardReturn = new UnrecognizedCommand();
+			Command resultCommand = standardReturn;
+
+			foreach (Command command in commandList)
             {
 				if(command.Validate(msg) == -1) continue;
-				if(command.Recognize(msg) == -1) continue;
-				return command;
+				resultCommand = command;
             }
 
-			return new UnrecognizedCommand();
+			try
+			{
+				resultCommand.SetArguments(obj, msg);
+			}
+			catch(Exception ex)
+            {
+				return standardReturn;
+            }
+
+			return resultCommand;
 		}
 	}
 }

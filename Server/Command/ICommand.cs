@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using Server.ChatPM;
+using Server.BotPM;
 
 namespace Server.CommandPM
 {
@@ -8,14 +9,14 @@ namespace Server.CommandPM
 	{
 		protected List<string> keywords;
 		protected string regulatorSymbol;
-		protected bool hasArgs;
 
-		protected List<string> arguments;
-		public void setArguments(List<string> arguments) => this.arguments = arguments;
+		protected List<object> args;
 
 		public Command()
 		{
+			args = new List<object>();
 			keywords = new List<string>();
+			regulatorSymbol = "";
 		}
 
 		public int Validate(Message msg)
@@ -28,7 +29,8 @@ namespace Server.CommandPM
 			return 0;
 		}
 
-		public abstract int Recognize(Message msg);
+		public abstract int SetArguments(ISendReceive obj, Message msg);
+
 		public abstract void Execute();
 
 		public List<string> Keywords => keywords;
@@ -42,31 +44,38 @@ namespace Server.CommandPM
         {
 
         }
+		public override int SetArguments(ISendReceive obj, Message msg)
+		{
+			return 0;
+		}
 		public override void Execute()
 		{
-
+			return;
 		}
-		public override int Recognize(Message msg)
-		{
-			return -1;
-		}
-	}
+    }
 
-	public class ConnectCommand : Command
+	public class HelloCommand : Command
     {
-		public ConnectCommand() : base()
+		public HelloCommand() : base()
         {
-            keywords.Add("connect");
-			hasArgs = true;
+            keywords.Add("hello");
         }
+		public override int SetArguments(ISendReceive obj, Message msg)
+		{
+			args.Add(obj);
+			args.Add(msg.Origin);
+			args.Add("> " + obj + ": Hello you too!");
+			return 0;
+		}
 		public override void Execute()
 		{
-			if(hasArgs == true && arguments.Count == 0) throw new Exception();
-			
+			(args[0] as ISendReceive).SendMessage(new Message()
+			{
+				Origin = args[0] as ISendReceive,
+				Destination = args[1] as ISendReceive,
+				Content = args[2] as string
+			}
+			);
 		}
-		public override int Recognize(Message msg)
-        {
-			return -1;
-        }
-	}
+    }
 }
