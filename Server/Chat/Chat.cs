@@ -1,40 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Server.BotPM;
 using Server.CommandPM;
 
 namespace Server.ChatPM
 {
-    public class Chat
+    public class Chat : ISendReceive
     {
-        protected Server srv;
         protected int id;
 
         protected List<ChatEntity> connected;
         protected List<Message> savedMessages;
-        protected CommandInterpreter commandInterpeter;
+        protected CommandInterpreter commandInterpeter;     
         
-        
-        public Chat(Server srv)
+        public Chat()
         {
-            this.srv = srv;
-            id = Server.IdGlobal;
+            id = Programm.IdGlobal;
             connected = new List<ChatEntity>();
             savedMessages = new List<Message>();
             commandInterpeter = new CommandInterpreter(
-                new List<Command>()
-                );
+                this,
+                new List<Command> {
+                    new UnrecognizedCommand(),
+                    new HelloCommand()
+                    }
+            );
+        }
 
+        //public delegate void delegateMsg(object sender, Message msg);     
+
+        //public event delegateMsg NewMessage;
+
+        public void SendMessage(Message msg)
+        {
+            foreach(ChatEntity con in connected)
+            {
+                con.ReceiveMessage(msg);
+            }    
         }
 
         public void ReceiveMessage(Message msg)
         {
-            NewMessage(msg);
+            Command command = commandInterpeter.InterpretMessage(msg);
+            command.Execute();
+            OnMessage(msg);
         }
 
-        public void NewMessage(Message msg)
+        public void OnMessage(Message msg)
         {
             savedMessages.Add(msg);
+            foreach(ChatEntity entity in connected)
+            {
+                if(entity != msg.Origin) entity.ReceiveMessage(msg);
+            }
+            //NewMessage(this, msg);
         }
 
         public int Connect(ChatEntity entity)
@@ -50,5 +69,7 @@ namespace Server.ChatPM
             connected.Remove(entity);
             return 0;
         }
+
+        
     }
 }
