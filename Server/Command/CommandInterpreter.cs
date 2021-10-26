@@ -10,10 +10,10 @@ namespace Server.CommandPM
 		private ISendReceive obj;
 
 		public CommandInterpreter(ISendReceive obj, List<Command> commandList)
-        {
+		{
 			this.obj = obj;
 			this.commandList = commandList;
-        }
+		}
 
 		public Command InterpretMessage(ChatPM.Message msg)
 		{
@@ -21,19 +21,19 @@ namespace Server.CommandPM
 			Command resultCommand = standardReturn;
 
 			foreach (Command command in commandList)
-            {
+			{
 				if(command.Validate(msg) == -1) continue;
 				resultCommand = command;
-            }
+			}
 
 			try
 			{
 				resultCommand.SetArguments(obj, msg);
 			}
 			catch(Exception ex)
-            {
+			{
 				return standardReturn;
-            }
+			}
 
 			return resultCommand;
 		}

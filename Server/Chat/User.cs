@@ -4,7 +4,7 @@
 	{	
 		private UserInterface ui;
 
-        public User()
+		public User()
 		{
 			ui = new UserInterface(this);
 		}
@@ -14,11 +14,11 @@
 			ui.ShowMessage(msg);
 		}
 
-        public override void SendMessage(Message msg)
-        {
+		public override void SendMessage(Message msg)
+		{
 			connectedTo.ReceiveMessage(msg);
-        }
+		}
 
-        public UserInterface UI { get => ui; set => ui = value; }
+		public UserInterface UI { get => ui; set => ui = value; }
 	}
 }

@@ -7,10 +7,10 @@ namespace Server.ChatPM
 		protected Chat connectedTo;
 
 		public ChatEntity()
-        {
-        }
+		{
+		}
 
-        public void CreateMessage(string msgString)
+		public void CreateMessage(string msgString)
 		{
 			Message msg = new Message()
 			{
@@ -25,6 +25,6 @@ namespace Server.ChatPM
 
 		public abstract void ReceiveMessage(Message msg);
 
-        public Chat ConnectedTo { get => connectedTo; set => connectedTo = value; }
-    }
+		public Chat ConnectedTo { get => connectedTo; set => connectedTo = value; }
+	}
 }

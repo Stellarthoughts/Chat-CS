@@ -20,7 +20,7 @@ namespace Server.CommandPM
 		}
 
 		public int Validate(Message msg)
-        {
+		{
 			if (!msg.Content.Contains(RegulatorSymbol)) return -1;
 			foreach (string keyword in Keywords)
 			{
@@ -41,9 +41,9 @@ namespace Server.CommandPM
 	public class UnrecognizedCommand : Command
 	{ 
 		public UnrecognizedCommand() : base()
-        {
+		{
 
-        }
+		}
 		public override int SetArguments(ISendReceive obj, Message msg)
 		{
 			return 0;
@@ -52,14 +52,14 @@ namespace Server.CommandPM
 		{
 			return;
 		}
-    }
+	}
 
 	public class HelloCommand : Command
-    {
+	{
 		public HelloCommand() : base()
-        {
-            keywords.Add("hello");
-        }
+		{
+			keywords.Add("hello");
+		}
 		public override int SetArguments(ISendReceive obj, Message msg)
 		{
 			args.Add(obj);
@@ -77,5 +77,5 @@ namespace Server.CommandPM
 			}
 			);
 		}
-    }
+	}
 }

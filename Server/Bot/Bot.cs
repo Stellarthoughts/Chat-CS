@@ -6,27 +6,27 @@ namespace Server.BotPM
 {
 	public class Bot : ChatEntity
 	{
-        protected CommandInterpreter commandInterpeter;
+		protected CommandInterpreter commandInterpeter;
 
-        public Bot()
+		public Bot()
 		{
-            commandInterpeter = new CommandInterpreter(
-               this,
-               new List<Command> {
-                    new UnrecognizedCommand(),
-                    new HelloCommand()
-                   }
-           );
-        }
+			commandInterpeter = new CommandInterpreter(
+			   this,
+			   new List<Command> {
+					new UnrecognizedCommand(),
+					new HelloCommand()
+				   }
+		   );
+		}
 
-        public override void ReceiveMessage(Message msg)
-        {
-            Command command = commandInterpeter.InterpretMessage(msg);
-            command.Execute();
-        }
-        public override void SendMessage(Message msg)
-        {
-            connectedTo.ReceiveMessage(msg);
-        }
-    }
+		public override void ReceiveMessage(Message msg)
+		{
+			Command command = commandInterpeter.InterpretMessage(msg);
+			command.Execute();
+		}
+		public override void SendMessage(Message msg)
+		{
+			connectedTo.ReceiveMessage(msg);
+		}
+	}
 }

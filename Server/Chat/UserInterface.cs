@@ -22,9 +22,9 @@ namespace Server.ChatPM
 		}
 
 		public void ShowMessage(Message msg)
-        {
+		{
 			Console.WriteLine(msg.Content);
-        }
+		}
 
 		public User Usr => usr;
 	}
