@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Server
 {
-	public class Programm
+	public class Program
 	{
 		private static int idGlobal = 0;
 		private static List<Chat> chatList;

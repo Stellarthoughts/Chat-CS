@@ -15,7 +15,7 @@ namespace Server.ChatPM
 		
 		public Chat()
 		{
-			id = Programm.IdGlobal;
+			id = Program.IdGlobal;
 			connected = new List<ChatEntity>();
 			savedMessages = new List<Message>();
 			commandInterpeter = new CommandInterpreter(
