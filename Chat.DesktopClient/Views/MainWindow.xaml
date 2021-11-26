@@ -6,12 +6,34 @@
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="450" Width="800">
-    <Grid>
-        <StackPanel VerticalAlignment="Center">
-            <Label Height="300" Width="500" Content="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
-            <TextBox Height="50" Width="500" Text="{Binding Message}"></TextBox>
-            <Button Height="50" Width="500" Content="Send Message" Command="{Binding SendMessageCommand}"></Button>
-        </StackPanel>
+        Title="{Binding Title}" Height="450" Width="441">
+    <Grid Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Background="#FFFDECEC"/>
+        <TextBox Text="{Binding Message}" Margin="0,0,0,10" Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Background="#FFD7D7FF"/>
+        <Button Content="Send Message" Command="{Binding SendMessageCommand}" Grid.Row="7" Grid.Column="1"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="tbNickname" Text="{Binding Nickname}" TextWrapping="Wrap" Margin="10,10,10,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="tbNickname_Copy" Text="{Binding Recepient}" TextWrapping="Wrap" Margin="10,10,10,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Window>

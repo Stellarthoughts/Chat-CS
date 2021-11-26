@@ -46,7 +46,6 @@
         public async Task SendMessage(Guid id, string message)
         {
             await SendMessage(ConnectionManager.GetSocketById(id), message);
-
         }
 
         public async Task SendMessageToAll(string message)

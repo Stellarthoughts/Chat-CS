@@ -25,11 +25,13 @@ namespace Chat.DesktopClient.Services
             _ = _connectionManager.StartConnection();
         }
 
-        public void SendMessage(string message)
+        public void SendMessage(string message, string origin, string target)
         {
             Message messageObject = new Message
             {
-                Text = message
+                Text = message,
+                Origin = origin,
+                Target = target
             };
 
             var jsonMessage = JsonConvert.SerializeObject(messageObject);
