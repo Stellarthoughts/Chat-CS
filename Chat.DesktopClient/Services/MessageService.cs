@@ -21,13 +21,8 @@ namespace Chat.DesktopClient.Services
         {
             _mainViewModel = vm;
             _connectionManager = new ConnectionManager(API);
-            Init();
-        }
-
-        public async void Init()
-        {
-            await _connectionManager.StartConnection();
-            var receive = ReceiveMessage();
+            _connectionManager.ReceivedEvent += ReceiveMessage;
+            _ = _connectionManager.StartConnection();
         }
 
         public void SendMessage(string message)
@@ -42,22 +37,10 @@ namespace Chat.DesktopClient.Services
             _connectionManager.Client.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
-        public async Task ReceiveMessage()
+        public void ReceiveMessage(object sender, string message)
         {
-            var buffer = new byte[1024 * 4];
-
-            while (true)
-            {
-                var result = await _connectionManager.Client.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                string jsonMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                Message message = JsonConvert.DeserializeObject<Message>(jsonMessage);
-                _mainViewModel.ReceiveMessage(message.Text);
-                if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    await _connectionManager.Client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-                    break;
-                }
-            }
+            Message casted = JsonConvert.DeserializeObject<Message>(message);
+            _mainViewModel.ReceiveMessage(casted.Text);
         }
     }
 }

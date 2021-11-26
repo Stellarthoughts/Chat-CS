@@ -3,6 +3,7 @@
     using Prism.Commands;
     using Prism.Mvvm;
     using Services;
+    using System;
 
     public class MainWindowViewModel : BindableBase
     {
@@ -38,7 +39,7 @@
 
         public void ReceiveMessage(string message)
         {
-            Output = Output + "\n" + message;
+            Output = $"{Output}\n{DateTime.UtcNow.ToLocalTime().ToShortTimeString()}: {message}";
         }
     }
 }
