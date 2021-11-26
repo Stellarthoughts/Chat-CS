@@ -5,8 +5,9 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Core;
     using SocketsManager;
+    using Newtonsoft.Json;
 
     public abstract class SocketHandler
     {
@@ -31,8 +32,15 @@
         {
             if (socket.State != WebSocketState.Open)
                 return;
-            await socket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message), 0, message.Length),
-                WebSocketMessageType.Text, true, CancellationToken.None);
+
+            Message messageObject = new Message
+            {
+                Text = message
+            };
+
+            var jsonMessage = JsonConvert.SerializeObject(messageObject);
+            var bytes = Encoding.UTF8.GetBytes(jsonMessage);
+            await socket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         public async Task SendMessage(Guid id, string message)

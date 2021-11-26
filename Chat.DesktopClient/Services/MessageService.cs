@@ -50,7 +50,7 @@ namespace Chat.DesktopClient.Services
             {
                 var result = await _connectionManager.Client.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 string jsonMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                Message message = (Message) JsonConvert.DeserializeObject(jsonMessage);
+                Message message = JsonConvert.DeserializeObject<Message>(jsonMessage);
                 _mainViewModel.ReceiveMessage(message.Text);
                 if (result.MessageType == WebSocketMessageType.Close)
                 {
