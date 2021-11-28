@@ -24,7 +24,9 @@
             <RowDefinition/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Background="#FFFDECEC"/>
+        <ScrollViewer Margin="0,0,0,10" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" >
+            <TextBlock Text="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FFFDECEC" Height="236" Width="411"/>
+        </ScrollViewer>
         <TextBox Text="{Binding Message}" Margin="0,0,0,10" Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Background="#FFD7D7FF"/>
         <Button Content="Send Message" Command="{Binding SendMessageCommand}" Grid.Row="7" Grid.Column="1"/>
         <Grid Grid.Column="1" Grid.Row="1">

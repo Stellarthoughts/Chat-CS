@@ -38,7 +38,6 @@
         }
 
         public DelegateCommand SendMessageCommand { get; private set; }
-        public DelegateCommand ChangeNicknameCommand { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -60,7 +59,8 @@
 
         public void ReceiveMessage(string message)
         {
-            Output = $"{Output}\n{message}";
+            if(Output == "") Output = $"{message}";
+            else Output = $"{Output}\n{message}";
         }
     }
 }
