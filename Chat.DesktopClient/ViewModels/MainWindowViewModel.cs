@@ -4,10 +4,13 @@
     using Prism.Mvvm;
     using Services;
     using System;
+    using Repository;
+    using Core;
 
     public class MainWindowViewModel : BindableBase
     {
         private MessageService _messageService;
+        private Repository _repository;
 
         private string _message = "";
         private string _output = "";
@@ -38,11 +41,16 @@
         }
 
         public DelegateCommand SendMessageCommand { get; private set; }
+        public DelegateCommand ClearOutputCommand { get; private set; }
+        public DelegateCommand LoadMessagesCommand { get; private set; }
 
         public MainWindowViewModel()
         {
             SendMessageCommand = new DelegateCommand(SendMessage);
+            ClearOutputCommand = new DelegateCommand(ClearOutput);
+            LoadMessagesCommand = new DelegateCommand(LoadMessages);
             _messageService = new MessageService(this);
+            _repository = new Repository();
         }
 
         private void SendMessage()
@@ -57,10 +65,26 @@
             }
         }
 
-        public void ReceiveMessage(string message)
+        public void ReceiveMessage(Message message)
         {
-            if(Output == "") Output = $"{message}";
-            else Output = $"{Output}\n{message}";
+            _repository.SaveMessage(message);
+            if (Output.Length == 0) Output = message.Text;
+            else Output = $"{Output}\n{message.Text}";
+        }
+
+        public void ClearOutput()
+        {
+            Output = "";
+        }
+
+        public void LoadMessages()
+        {
+            var messages = _repository.GetMessages();
+            foreach(var message in messages)
+            {
+                if (Output.Length == 0) Output = message.Text;
+                else Output = $"{Output}\n{message.Text}";
+            }
         }
     }
 }

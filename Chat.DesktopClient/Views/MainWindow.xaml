@@ -17,17 +17,19 @@
             <RowDefinition Height="15"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="15"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="216*"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="54*"/>
             <RowDefinition Height="10"/>
-            <RowDefinition/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="23*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Margin="0,0,0,10" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" >
+        <ScrollViewer Grid.Row="3" Grid.Column="1" >
             <TextBlock Text="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FFFDECEC" Height="236" Width="411"/>
         </ScrollViewer>
-        <TextBox Text="{Binding Message}" Margin="0,0,0,10" Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" Background="#FFD7D7FF"/>
+        <TextBox Text="{Binding Message}" Margin="0,10,0,10" Grid.Row="4" Grid.RowSpan="3" Grid.Column="1" Background="#FFD7D7FF"/>
         <Button Content="Send Message" Command="{Binding SendMessageCommand}" Grid.Row="7" Grid.Column="1"/>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -36,6 +38,14 @@
             </Grid.ColumnDefinitions>
             <TextBox x:Name="tbNickname" Text="{Binding Nickname}" TextWrapping="Wrap" Margin="10,10,10,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <TextBox x:Name="tbNickname_Copy" Text="{Binding Recepient}" TextWrapping="Wrap" Margin="10,10,10,10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="9">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Load Messages" Command="{Binding LoadMessagesCommand}" Grid.Column="1" Margin="0,0,0,0" Height="Auto" Width="Auto"/>
+            <Button Content="Clear Messages" Command="{Binding ClearOutputCommand}" Margin="0,0,0,0" Height="Auto" Width="Auto"/>
         </Grid>
     </Grid>
 </Window>

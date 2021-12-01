@@ -54,9 +54,10 @@ namespace Chat.Server.Handlers
             else
             {
                 var socketTarget = _connections.Where(entry => entry.Key.Name == messageObject.Target).Select(entry => entry.Value);
-                foreach(WebSocket sock in socketTarget)
+                var messageReply = $"{messageObject.Origin} to {messageObject.Target}: {messageObject.Text}";
+                foreach (WebSocket sock in socketTarget)
                 {
-                    await SendMessage(sock, $"{messageObject.Origin} to {messageObject.Target}: {messageObject.Text}");
+                    await SendMessage(sock, messageReply);
                 }
             }
         }

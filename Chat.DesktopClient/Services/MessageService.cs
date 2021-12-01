@@ -42,7 +42,7 @@ namespace Chat.DesktopClient.Services
         public void ReceiveMessage(object sender, string message)
         {
             Message casted = JsonConvert.DeserializeObject<Message>(message);
-            _mainViewModel.ReceiveMessage(casted.Text);
+            _mainViewModel.ReceiveMessage(casted);
         }
     }
 }
