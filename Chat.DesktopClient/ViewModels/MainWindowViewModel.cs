@@ -51,6 +51,8 @@
             LoadMessagesCommand = new DelegateCommand(LoadMessages);
             _messageService = new MessageService(this);
             _repository = new Repository();
+
+            LoadMessages();
         }
 
         private void SendMessage()

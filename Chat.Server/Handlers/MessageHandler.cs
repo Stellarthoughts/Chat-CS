@@ -25,7 +25,7 @@ namespace Chat.Server.Handlers
 
             var user = new User
             {
-                Id = Guid.NewGuid(),
+                Guid = Guid.NewGuid(),
                 Name = $"User{_connections.Count}"
             };
 
