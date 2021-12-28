@@ -7,6 +7,7 @@ using Chat.DesktopClient.Managers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Chat.DesktopClient.ViewModels;
+using NLog;
 
 namespace Chat.DesktopClient.Services
 {
@@ -16,13 +17,21 @@ namespace Chat.DesktopClient.Services
 
         private readonly ConnectionManager _connectionManager;
         private readonly MainWindowViewModel _mainViewModel;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MessageService(MainWindowViewModel vm)
         {
             _mainViewModel = vm;
             _connectionManager = new ConnectionManager(API);
             _connectionManager.ReceivedEvent += ReceiveMessage;
-            _ = _connectionManager.StartConnection();
+            try
+            {
+                _ = _connectionManager.StartConnection();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Cannot connect to server! Exception: {ex.Message}");
+            }
         }
 
         public void SendMessage(string message, string origin, string target)
@@ -36,7 +45,14 @@ namespace Chat.DesktopClient.Services
 
             var jsonMessage = JsonConvert.SerializeObject(messageObject);
             var bytes = Encoding.UTF8.GetBytes(jsonMessage);
-            _connectionManager.Client.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+            try
+            {
+                _connectionManager.Client.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Cannot send message! Exception: {ex.Message}");
+            }
         }
 
         public void ReceiveMessage(object sender, string message)

@@ -6,11 +6,13 @@
     using System;
     using Repository;
     using Core;
+    using NLog;
 
     public class MainWindowViewModel : BindableBase
     {
         private MessageService _messageService;
         private Repository _repository;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         private string _message = "";
         private string _output = "";
@@ -53,6 +55,7 @@
             _repository = new Repository();
 
             LoadMessages();
+            _logger.Debug("ViewModel init completed");
         }
 
         private void SendMessage()
@@ -69,6 +72,7 @@
 
         public void ReceiveMessage(Message message)
         {
+            _logger.Info($"Message recieved: {message.Text}");
             _repository.SaveMessage(message);
             if (Output.Length == 0) Output = message.Text;
             else Output = $"{Output}\n{message.Text}";
@@ -82,7 +86,8 @@
         public void LoadMessages()
         {
             var messages = _repository.GetMessages();
-            foreach(var message in messages)
+            _logger.Debug("Messages were loaded");
+            foreach (var message in messages)
             {
                 if (Output.Length == 0) Output = message.Text;
                 else Output = $"{Output}\n{message.Text}";
