@@ -5,7 +5,7 @@ using System.Net.WebSockets;
 
 namespace Chat.Tests
 {
-    public class Tests
+    public class ConnectionManagerUnitTests
     {
         private Mock<WebSocket>? _socket = null;
 
