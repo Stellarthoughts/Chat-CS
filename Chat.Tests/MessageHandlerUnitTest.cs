@@ -29,13 +29,16 @@ namespace Chat.Tests
         }
 
         [Test]
-        public async Task SendMessage_Contents_Identical_On_Both_Ends()
+        public async Task SendMessage_Socket_Send_Done()
         {
             ConnectionManager con = new ConnectionManager();
             MessageHandler mh = new MessageHandler(con);
 
             string message = "This test is being done RIGHT NOW.";
-
+            await mh.OnConnected(_socket.Object);
+            Task tsk =  mh.SendMessage(_socket.Object, message);
+            tsk.Wait();
+            Assert.IsTrue(tsk.IsCompleted);
         }
     }
 }
